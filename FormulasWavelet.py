@@ -14,7 +14,7 @@ def MexicanHat (tempo,dilat,posic):
     inputFourier = ((tempo-posic)/dilat)
     return (1-inputFourier**2)*math.e**((inputFourier**2/2)*-1)
     
-def hermitianHat (tempo,dilat,posic):
+def HermitianHat (tempo,dilat,posic):
     inputFourier = ((tempo-posic)/dilat)
     return 2/(5**2)*math.pi**-(1/4)*inputFourier*(1+inputFourier)*math.e**((-1/2)*inputFourier**2)
 
@@ -51,18 +51,18 @@ def GraficoWaveLet(tempo, sinal):
 
 def FourierAnalise(tempo, sinal):
     fft = np.fft.fft(sinal)
-    T = t[1] - t[0]  # sampling interval 
+    T = tempo[1] - tempo[0]  # sampling interval 
     N = sinal.size
 
     # 1/T = frequency
     f = np.linspace(0, 1 / T, N)
-    return [f[:N // 2], 2*np.abs(fft)[:N // 2] * 1 / N, width=1.5]
+    return [f[:N // 2],2*np.abs(fft)[:N // 2] * 1 / N, 1.5]
 
 def FourierAnaliseGraph(FourierAnalise):
     plt.figure()
     plt.ylabel("Amplitude")
     plt.xlabel("Frequency [Hz]")
-    plt.bar()  # 1 / N is a normalization factor
+    plt.bar(FourierAnalise[0],FourierAnalise[1], width=FourierAnalise[2])  # 1 / N is a normalization factor
     plt.show()
 
 
