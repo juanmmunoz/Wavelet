@@ -1,18 +1,14 @@
 #python Wavelet.py
-import numpy as np
-from matplotlib import pyplot as plt
 import FormulasWavelet as FW
+import numpy as np
 
-t = np.linspace(-10, 20,400)
+
+t = np.linspace(0, 10,40000)
 posic = 5
-dilat = 1
+dilat = 1/4
+sinal = FW.MeyerWavelet(t,dilat,posic)
+FW.plotly(t,sinal)
 
-sinal = FW.MexicanHat(t,dilat,posic)
-
-tempo = 10
-dilat = 5
-sinal += FW.HermitianHat(t,dilat,posic) 
-FW.GraficoWaveLet(t,sinal)
 
 
 
