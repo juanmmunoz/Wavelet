@@ -7,7 +7,9 @@ t = np.linspace(0, 10,40000)
 posic = 5
 dilat = 1/4
 sinal = FW.MeyerWavelet(t,dilat,posic)
-FW.plotly(t,sinal)
+FW.WaveletPlotly(t,sinal)
+
+
 
 
 
