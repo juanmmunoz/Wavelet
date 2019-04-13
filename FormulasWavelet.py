@@ -123,13 +123,13 @@ def FourierAnaliseGraph(FourierAnalise):
     plt.bar(FourierAnalise[0],FourierAnalise[1], width=FourierAnalise[2])  # 1 / N is a normalization factor
     plt.show()
 
-def WaveletPlotly(tempo, sinal):
+def WaveletPlotly(tempo, sinal, name):
     """Gera um gráfico em pyplot de linha feito para demonstração grafica de sinais
      Argumentos: 
         Tempo: Um numpy array com os valores do tempo
         Sinal: Um numpy Array com os valores do sinal em relação ao tempo
     Retorno:
-        Salva um Grafico com o nome Wavelet.html na pasta do arquivo"""
+        Salva um Grafico em html na pasta do arquivo"""
 
     trace = go.Scatter(
         y = sinal,
@@ -153,24 +153,4 @@ def WaveletPlotly(tempo, sinal):
 
     fig = go.Figure(data=[trace], layout=layout)
 
-    plot(fig, filename= "Wavelet.html")
-
-
-
-
-#   for x in inputFourier:
-#         if x <= 0:
-#             v = np.append(v, [0])
-#         elif 0 < x and x <= 1:
-#             v = np.append (v, [x])
-#         elif 1 < x:
-#             v = np.append (v, [1])
-#         if 2*math.pi/3 < math.fabs(x) and math.fabs(x)<4*math.pi/3:
-#             output = 1/((2*math.pi)**1/2)*np.sin(math.pi/2*v*((3*math.fabs(x)/(2*math.pi))-1))*math.e**1j*x/2
-#             outputArray = np.append(outputArray, output) 
-#         elif 4*math.pi/3 < math.fabs(x) and math.fabs(x)<8*math.pi/3:
-#             output =  1/((2*math.pi)**1/2)*np.cos(math.pi/2*v*((3*math.fabs(x)/(4*math.pi))-1))*math.e**1j*x/2
-#             outputArray = np.append(outputArray, output)
-#         else:
-#             outputArray = np.append(outputArray, 0)
-#     return outputArray
+    plot(fig, filename= name + ".html")

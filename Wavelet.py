@@ -3,11 +3,15 @@ import FormulasWavelet as FW
 import numpy as np
 
 
-t = np.linspace(0, 10,40000)
+t = np.linspace(0, 10,4000)
 posic = 5
 dilat = 1/4
 sinal = FW.MeyerWavelet(t,dilat,posic)
-FW.WaveletPlotly(t,sinal)
+FW.WaveletPlotly(t,sinal, "Meyer")
+sinal = FW.HermitianHat(t,dilat,posic)
+FW.WaveletPlotly(t,sinal, "HermitianHat")
+sinal = FW.MexicanHat(t,dilat,posic)
+FW.WaveletPlotly(t,sinal, "MexicanHat")
 
 
 
