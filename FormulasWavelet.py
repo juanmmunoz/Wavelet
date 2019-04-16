@@ -1,6 +1,7 @@
 #python FormulasWavelet.py
 import math
 import numpy as np
+import scipy.integrate as integrate
 from matplotlib import pyplot as plt
 from plotly.offline import plot
 import plotly.graph_objs as go
@@ -11,6 +12,25 @@ def FNysquistForBits (FrequenciaHzs,NiveisBits):
     print("Frequencia de %i Hzs com %i Niveis"%(FrequenciaHzs,NiveisBits))
     print("Amostragem Minima de %i bits por segundo"%(value))
     return(value)
+
+def SinalBasico(Tempo, Frequencia, Amplitude):
+    return Amplitude*np.sin(Frequencia*2*np.pi*  Tempo) 
+
+def TransformadaWavelet (tempo, RealSinal, dilatRange, WaveletFunction ):
+    def IntFunct (t,a,b,r):
+        return r*WaveletFunction(t,a,b)
+    matrix = np.matrix([])
+    for a in dilatRange:
+        linha = np.array([])
+        for b in tempo:
+            WaveletSinal = WaveletFunction(tempo, a, b)
+            WaveletTransform = integrate.simps(WaveletSinal*RealSinal, tempo)
+            linha = np.append( (1/(a**1/2))*WaveletTransform, linha)
+        
+        matrix = np.append(linha, matrix)
+    matrix = matrix.reshape(len(RealSinal), len(dilatRange))
+    return matrix
+
 
 def MexicanHat (tempo,dilat,posic):
     """Retornar um array das posições de uma OndaLet(Chápeu de mexicano) em relação ao tempo
@@ -25,7 +45,7 @@ def MexicanHat (tempo,dilat,posic):
     inputFourier = ((tempo-posic)/dilat)
     return (1-inputFourier**2)*math.e**((inputFourier**2/2)*-1)
     
-def HermitianHat (tempo,dilat,posic):
+def HermitianHat (tempo,dilat,posic ):
     """Retornar um array das posições de uma OndaLet(Chápeu de Hermitian) em relação ao tempo
     
     Argumentos:
@@ -39,7 +59,7 @@ def HermitianHat (tempo,dilat,posic):
     inputFourier = ((tempo-posic)/dilat)
     return 2/(5**2)*math.pi**-(1/4)*inputFourier*(1+inputFourier)*math.e**((-1/2)*inputFourier**2)
 
-def MeyerWavelet (tempo,dilat,posic):
+def MeyerWavelet (tempo,dilat,posic ):
     """Retornar um array das posições de uma OndaLet(Meyer) em relação ao tempo
     
     Argumentos:
@@ -51,7 +71,6 @@ def MeyerWavelet (tempo,dilat,posic):
         Retorna um Array 2D com os valores de Amplitude em relação ao tempo."""
 
     inputFourier = ((tempo-posic)/dilat)
-    v = np.array([])
     outputArray = np.array([])
     for x in inputFourier:
         if x == 0:
@@ -123,21 +142,22 @@ def FourierAnaliseGraph(FourierAnalise):
     plt.bar(FourierAnalise[0],FourierAnalise[1], width=FourierAnalise[2])  # 1 / N is a normalization factor
     plt.show()
 
-def WaveletPlotly(tempo, sinal, name):
-    """Gera um gráfico em pyplot de linha feito para demonstração grafica de sinais
-     Argumentos: 
-        Tempo: Um numpy array com os valores do tempo
-        Sinal: Um numpy Array com os valores do sinal em relação ao tempo
-    Retorno:
-        Salva um Grafico em html na pasta do arquivo"""
-
-    trace = go.Scatter(
+def MakeAPlotlyScatter(sinal, tempo):
+    return go.Scatter(
         y = sinal,
         x = tempo, 
         mode = 'lines+markers',
         line = dict(  color = "rgb(200, 0, 0)",
                   width = 4,
                   dash = 'dot'))
+
+def WaveletPlotly(tempo, data, name):
+    """Gera um gráfico em pyplot de linha feito para demonstração grafica de sinais
+     Argumentos: 
+        Tempo: Um numpy array com os valores do tempo
+        Sinal: Um numpy Array com os valores do sinal em relação ao tempo
+    Retorno:
+        Salva um Grafico em html na pasta do arquivo"""
 
     layout = {
         "title": "Wavelets", 
@@ -151,6 +171,6 @@ def WaveletPlotly(tempo, sinal, name):
         }
     }
 
-    fig = go.Figure(data=[trace], layout=layout)
+    fig = go.Figure(data=data, layout=layout)
 
     plot(fig, filename= name + ".html")

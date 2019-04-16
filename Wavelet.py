@@ -1,24 +1,20 @@
 #python Wavelet.py
 import FormulasWavelet as FW
 import numpy as np
-
-
-t = np.linspace(0, 10,4000)
-posic = 5
-dilat = 1/4
-sinal = FW.MeyerWavelet(t,dilat,posic)
-FW.WaveletPlotly(t,sinal, "Meyer")
-sinal = FW.HermitianHat(t,dilat,posic)
-FW.WaveletPlotly(t,sinal, "HermitianHat")
-sinal = FW.MexicanHat(t,dilat,posic)
-FW.WaveletPlotly(t,sinal, "MexicanHat")
-
+import matplotlib.pyplot as plt
+dilat = np.linspace(0, 5,1000)
+t = np.linspace(0, 5,1000)
+sinal = FW.SinalBasico(t,0.5,1)
+Wavelet = FW.MexicanHat
+TransWaveMatrix = FW.TransformadaWavelet(t,sinal,dilat,Wavelet)
+print(TransWaveMatrix)
+plt.imshow(TransWaveMatrix)
+plt.show()
 
 
 
 
 
-# sinal += 4*np.sin(Frequency*2*np.pi*t) 
 
 # alising
 # nisquit
