@@ -4,19 +4,18 @@ from PyLets import MatPlotWavelets as mwl
 from PyLets import Others as ot
 from PyLets import SignalsAnalyses as sia
 from PyLets import Wavelets as wale
-from matplotlib import pyplot as plt
 
 
-t = np.linspace(0, 10,100)
-dilat = np.linspace(0, 1,100)
-WaveletSinal = wale.MexicanHat(t,0.5,1)
+t = np.linspace(0, 10,1000)
+dilat = np.linspace(0, 0.5,1000)
+WaveletSinal = wale.HermitianWavelet1(t,0.25,5)
 sinal = wale.SinalBasico(t,1,1) +wale.SinalBasico(t,2,1)
-Wavelet= wale.MexicanHat
+Wavelet= wale.HermitianWavelet1
 mwl.WaveLetMatPlot(t,WaveletSinal)
 mwl.WaveLetMatPlot(t,sinal)
 TransWaveMatrix = sia.TransWaveletCont(t,dilat,sinal,Wavelet)
 print(TransWaveMatrix)
-
+mwl.TransWaveletContGraph(TransWaveMatrix)
 
 
 

@@ -26,6 +26,6 @@ def TransFourierGraph(FourierAnalise):
     plt.bar(FourierAnalise[0],FourierAnalise[1], width=FourierAnalise[2])  # 1 / N is a normalization factor
     plt.show()
 
-def TransWaveletContGraph(Matrix)
+def TransWaveletContGraph(Matrix):
     plt.imshow(Matrix, cmap='PRGn', aspect='auto')
     plt.show()
